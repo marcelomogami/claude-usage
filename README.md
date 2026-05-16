@@ -5,11 +5,12 @@ Widget KDE Plasma 6 que exibe o uso da cota do Claude Pro na barra do painel.
 ## O que exibe
 
 ```
-Claude  5h:20%  7d:40%
+Claude  5h: 20%  |  7d: 40% | ●
 ```
 
 - **5h:** utilização na janela de 5 horas
 - **7d:** utilização na janela de 7 dias
+- **●:** status operacional do Claude (`status.claude.com`) — verde, amarelo, laranja ou vermelho
 
 Clique no widget para atualizar na hora.
 
@@ -32,8 +33,9 @@ O plasmoid é instalado via symlink em `~/.local/share/plasma/plasmoids/com.celo
 ## Como funciona
 
 O script lê o token OAuth do Claude Code em `~/.claude/.credentials.json` e consulta
-o endpoint `https://api.anthropic.com/api/oauth/usage`. O widget roda o script a cada
-5 minutos e exibe o resultado na barra.
+o endpoint `https://api.anthropic.com/api/oauth/usage` para o uso de cota, e
+`https://status.claude.com/api/v2/status.json` para o status operacional. O widget
+roda o script a cada 5 minutos e exibe o resultado na barra.
 
 ## Instalação
 

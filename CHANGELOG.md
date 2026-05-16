@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2 — 2026-05-15
+
+- Bolinha colorida de status do Claude (verde/amarelo/laranja/vermelho) após os percentuais
+- Consulta `status.claude.com/api/v2/status.json` a cada 5 minutos junto com o uso
+- Formato exibido: `Claude  5h: XX%  |  7d: XX% | ●`
+
 ## 1.1 — 2026-05-14
 
 - Ícone do Claude na barra (favicon extraído de claude.ai)
