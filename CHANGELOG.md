@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3 — 2026-05-16
+
+- Menu de contexto (botão direito) com "Recarregar cota" e "Recarregar status" separados
+- Script aceita argumento `usage` ou `status` para buscar só o que é necessário
+- Timeout adicionado ao curl do status (3s connect, 5s total) para evitar travamento no reload manual
+- Clique esquerdo mantido como reload completo (cota + status)
+
 ## 1.2 — 2026-05-15
 
 - Bolinha colorida de status do Claude (verde/amarelo/laranja/vermelho) após os percentuais

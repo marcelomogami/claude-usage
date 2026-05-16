@@ -12,7 +12,7 @@ Claude  5h: 20%  |  7d: 40% | ●
 - **7d:** utilização na janela de 7 dias
 - **●:** status operacional do Claude (`status.claude.com`) — verde, amarelo, laranja ou vermelho
 
-Clique no widget para atualizar na hora.
+Clique esquerdo no widget atualiza cota e status ao mesmo tempo. Botão direito abre menu com opções separadas: **Recarregar cota** e **Recarregar status**.
 
 ## Estrutura
 

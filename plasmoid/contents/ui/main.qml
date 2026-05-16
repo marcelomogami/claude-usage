@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import org.kde.plasma.plasmoid
+import org.kde.plasma.core as PlasmaCore
 import org.kde.plasma.plasma5support as Plasma5Support
 
 PlasmoidItem {
@@ -9,8 +10,7 @@ PlasmoidItem {
     Layout.preferredWidth: row.implicitWidth + 8
     Layout.fillHeight: true
 
-    readonly property string scriptCmd: "bash /home/celo/projects/personal/claude_usage/claude_usage.sh"
-
+    readonly property string scriptBase: "bash /home/celo/projects/personal/claude_usage/claude_usage.sh"
     property string statusIndicator: "unknown"
 
     function statusColor(indicator) {
@@ -21,29 +21,84 @@ PlasmoidItem {
         return "#6b7280"
     }
 
+    function reloadAll() {
+        label.text = "…"
+        cmdMain.disconnectSource(root.scriptBase)
+        cmdMain.connectSource(root.scriptBase)
+    }
+
+    function reloadUsage() {
+        label.text = "…"
+        var src = root.scriptBase + " usage"
+        cmdUsage.disconnectSource(src)
+        cmdUsage.connectSource(src)
+    }
+
+    function reloadStatus() {
+        var src = root.scriptBase + " status"
+        cmdStatus.disconnectSource(src)
+        cmdStatus.connectSource(src)
+    }
+
+    Plasmoid.contextualActions: [
+        PlasmaCore.Action {
+            text: "Recarregar cota"
+            icon.name: "view-refresh"
+            onTriggered: root.reloadUsage()
+        },
+        PlasmaCore.Action {
+            text: "Recarregar status"
+            icon.name: "network-connect"
+            onTriggered: root.reloadStatus()
+        }
+    ]
+
+    // Atualização periódica: busca cota + status
     Plasma5Support.DataSource {
-        id: cmd
+        id: cmdMain
         engine: "executable"
-        connectedSources: [root.scriptCmd]
+        connectedSources: [root.scriptBase]
         interval: 300000
         onNewData: function(source, data) {
-            if (parseInt(data["exit code"]) !== 0) return;
-            var out = data["stdout"].trim();
-            if (out.length === 0) return;
-            var parts = out.split("::");
-            label.text = parts[0];
-            root.statusIndicator = parts.length > 1 ? parts[1] : "unknown";
+            if (parseInt(data["exit code"]) !== 0) return
+            var out = data["stdout"].trim()
+            if (!out) return
+            var parts = out.split("::")
+            label.text = parts[0]
+            root.statusIndicator = parts.length > 1 ? parts[1] : "unknown"
+        }
+    }
+
+    // Refresh manual: só cota
+    Plasma5Support.DataSource {
+        id: cmdUsage
+        engine: "executable"
+        interval: 0
+        onNewData: function(source, data) {
+            cmdUsage.disconnectSource(source)
+            if (parseInt(data["exit code"]) !== 0) return
+            var out = data["stdout"].trim()
+            if (out) label.text = out
+        }
+    }
+
+    // Refresh manual: só status
+    Plasma5Support.DataSource {
+        id: cmdStatus
+        engine: "executable"
+        interval: 0
+        onNewData: function(source, data) {
+            cmdStatus.disconnectSource(source)
+            if (parseInt(data["exit code"]) !== 0) return
+            var out = data["stdout"].trim()
+            if (out) root.statusIndicator = out
         }
     }
 
     MouseArea {
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
-        onClicked: {
-            label.text = "…"
-            cmd.disconnectSource(root.scriptCmd)
-            cmd.connectSource(root.scriptCmd)
-        }
+        onClicked: root.reloadAll()
     }
 
     Row {
