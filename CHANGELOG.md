@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4 — 2026-05-19
+
+- Marcador `max: XX%` entre o 7d e a bolinha de status: teto acumulado de cota que se pode atingir até o fim do dia, dividindo os 100% da janela de 7 dias em 7 dias iguais (dia 1 = 14%, dia 7 = 100%)
+- Início do ciclo derivado automaticamente de `seven_day.resets_at` da própria API (ciclo = 7 dias antes do próximo reset); sem configuração e auto-ajustável se o reset mudar
+- Cálculo feito no próprio script (sem mudança no QML)
+
 ## 1.3 — 2026-05-16
 
 - Menu de contexto (botão direito) com "Recarregar cota" e "Recarregar status" separados

@@ -5,11 +5,12 @@ Widget KDE Plasma 6 que exibe o uso da cota do Claude Pro na barra do painel.
 ## O que exibe
 
 ```
-Claude  5h: 20%  |  7d: 40% | ●
+Claude  5h: 20%  |  7d: 40%  |  max: 57% | ●
 ```
 
 - **5h:** utilização na janela de 5 horas
 - **7d:** utilização na janela de 7 dias
+- **max:** teto de cota acumulado que se pode atingir até o fim do dia, dividindo os 100% da janela de 7 dias em 7 dias iguais. O início do ciclo é derivado automaticamente de `seven_day.resets_at` da própria API — sem configuração
 - **●:** status operacional do Claude (`status.claude.com`) — verde, amarelo, laranja ou vermelho
 
 Clique esquerdo no widget atualiza cota e status ao mesmo tempo. Botão direito abre menu com opções separadas: **Recarregar cota** e **Recarregar status**.
@@ -36,6 +37,11 @@ O script lê o token OAuth do Claude Code em `~/.claude/.credentials.json` e con
 o endpoint `https://api.anthropic.com/api/oauth/usage` para o uso de cota, e
 `https://status.claude.com/api/v2/status.json` para o status operacional. O widget
 roda o script a cada 5 minutos e exibe o resultado na barra.
+
+O marcador **max** não tem configuração: o início do ciclo de 7 dias é derivado
+do campo `seven_day.resets_at` que a própria API retorna (o ciclo começa 7 dias
+antes do próximo reset). Se a Anthropic mudar o dia/hora do reset, o widget se
+ajusta sozinho no refresh seguinte.
 
 ## Instalação
 

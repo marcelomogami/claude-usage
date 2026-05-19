@@ -7,6 +7,19 @@ if [[ "$MODE" == "all" || "$MODE" == "usage" ]]; then
     DATA=$(curl -sf -H "Authorization: Bearer $TOKEN" https://api.anthropic.com/api/oauth/usage)
     FIVE_H=$(echo "$DATA" | jq -r '.five_hour.utilization | round | tostring + "%"')
     WEEK=$(echo "$DATA"   | jq -r '.seven_day.utilization  | round | tostring + "%"')
+
+    # Meta do dia: 100% da cota divididos em 7 dias. O início do ciclo vem da
+    # própria API (seven_day.resets_at é o próximo reset; ciclo = 7 dias antes).
+    RESETS_AT=$(echo "$DATA" | jq -r '.seven_day.resets_at // empty')
+    if [[ -n "$RESETS_AT" ]]; then
+        NOW=$(date +%s)
+        NEXT_RESET=$(date -d "$RESETS_AT" +%s)
+        CYCLE_START=$(( NEXT_RESET - 7 * 86400 ))
+        DAY_IDX=$(( (NOW - CYCLE_START) / 86400 + 1 ))
+        (( DAY_IDX < 1 )) && DAY_IDX=1
+        (( DAY_IDX > 7 )) && DAY_IDX=7
+        TARGET=$(awk "BEGIN{printf \"%d\", $DAY_IDX*100/7 + 0.5}")
+    fi
 fi
 
 if [[ "$MODE" == "all" || "$MODE" == "status" ]]; then
@@ -15,7 +28,7 @@ if [[ "$MODE" == "all" || "$MODE" == "status" ]]; then
 fi
 
 case "$MODE" in
-    usage)  echo "Claude  5h: $FIVE_H  |  7d: $WEEK" ;;
+    usage)  echo "Claude  5h: $FIVE_H  |  7d: $WEEK  |  max: ${TARGET}%" ;;
     status) echo "$STATUS" ;;
-    *)      echo "Claude  5h: $FIVE_H  |  7d: $WEEK::$STATUS" ;;
+    *)      echo "Claude  5h: $FIVE_H  |  7d: $WEEK  |  max: ${TARGET}%::$STATUS" ;;
 esac
