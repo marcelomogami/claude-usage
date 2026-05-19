@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.5 — 2026-05-19
+
+- Horário de reset da janela de 5h exibido ao lado do percentual: `5h: XX% (↻HH:MM)`
+- Valor lido de `five_hour.resets_at` da própria API e formatado em hora local
+
 ## 1.4 — 2026-05-19
 
 - Marcador `max: XX%` entre o 7d e a bolinha de status: teto acumulado de cota que se pode atingir até o fim do dia, dividindo os 100% da janela de 7 dias em 7 dias iguais (dia 1 = 14%, dia 7 = 100%)

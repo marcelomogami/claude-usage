@@ -8,6 +8,12 @@ if [[ "$MODE" == "all" || "$MODE" == "usage" ]]; then
     FIVE_H=$(echo "$DATA" | jq -r '.five_hour.utilization | round | tostring + "%"')
     WEEK=$(echo "$DATA"   | jq -r '.seven_day.utilization  | round | tostring + "%"')
 
+    # Horário (local) em que a janela de 5h reinicia
+    FIVE_RESET=$(echo "$DATA" | jq -r '.five_hour.resets_at // empty')
+    if [[ -n "$FIVE_RESET" ]]; then
+        FIVE_H="${FIVE_H} (↻$(date -d "$FIVE_RESET" '+%H:%M'))"
+    fi
+
     # Meta do dia: 100% da cota divididos em 7 dias. O início do ciclo vem da
     # própria API (seven_day.resets_at é o próximo reset; ciclo = 7 dias antes).
     RESETS_AT=$(echo "$DATA" | jq -r '.seven_day.resets_at // empty')
