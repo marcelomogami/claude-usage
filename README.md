@@ -9,8 +9,7 @@ Claude  5h: 20% (18:30)  |  7d: 40% (↑57%) | ●
 ```
 
 - **5h:** utilização na janela de 5 horas; entre parênteses, ícone  (U+F0E2, Font Awesome) + hora local em que a janela reinicia (`five_hour.resets_at`)
-- **7d:** utilização na janela de 7 dias; entre parênteses, `↑` + teto de cota acumulado até o fim do dia (`seven_day.resets_at`)
-- **max:** teto de cota acumulado que se pode atingir até o fim do dia, dividindo os 100% da janela de 7 dias em 7 dias iguais. O início do ciclo é derivado automaticamente de `seven_day.resets_at` da própria API — sem configuração
+- **7d:** utilização na janela de 7 dias; entre parênteses, `↑` + teto de cota acumulado até o fim do dia (100% / 7 dias, derivado de `seven_day.resets_at`)
 - **●:** status operacional do Claude (`status.claude.com`) — verde, amarelo, laranja ou vermelho
 
 Clique esquerdo no widget atualiza cota e status ao mesmo tempo. Botão direito abre menu com opções separadas: **Recarregar cota** e **Recarregar status**.
@@ -38,10 +37,10 @@ o endpoint `https://api.anthropic.com/api/oauth/usage` para o uso de cota, e
 `https://status.claude.com/api/v2/status.json` para o status operacional. O widget
 roda o script a cada 5 minutos e exibe o resultado na barra.
 
-O marcador **max** não tem configuração: o início do ciclo de 7 dias é derivado
-do campo `seven_day.resets_at` que a própria API retorna (o ciclo começa 7 dias
-antes do próximo reset). Se a Anthropic mudar o dia/hora do reset, o widget se
-ajusta sozinho no refresh seguinte.
+O teto de cota `(↑XX%)` exibido ao lado do `7d` não tem configuração: o início
+do ciclo é derivado de `seven_day.resets_at` da própria API (o ciclo começa 7
+dias antes do próximo reset). Se a Anthropic mudar o dia/hora do reset, o widget
+se ajusta sozinho no refresh seguinte.
 
 ## Instalação
 
