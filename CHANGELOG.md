@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.8 — 2026-06-11
+
+- Corrige sobreposição do ícone `` sobre o horário de reset da janela de 5h: adicionados dois espaços entre o ícone e `HH:MM`
+
 ## 1.7 — 2026-05-25
 
 - Indicador `↑XX%` do 7d agora em tempo real por minuto: usa `ELAPSED_MINUTES / CYCLE_MINUTES × 100` em vez de `DAY_IDX × 100 / 7` — sobe ~0,05% a cada ciclo de 5 min em vez de travar o dia inteiro no mesmo valor

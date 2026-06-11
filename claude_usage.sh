@@ -94,7 +94,7 @@ if [[ "$MODE" == "all" || "$MODE" == "usage" ]]; then
         (( FIVE_ELAPSED < 0 ))   && FIVE_ELAPSED=0
         (( FIVE_ELAPSED > 300 )) && FIVE_ELAPSED=300
         FIVE_TARGET=$(awk "BEGIN{printf \"%d\", $FIVE_ELAPSED*100/300 + 0.5}")
-        FIVE_H="${FIVE_H} (↑${FIVE_TARGET}%) ($(printf '')$(date -d "$FIVE_RESET" '+%H:%M'))"
+        FIVE_H="${FIVE_H} (↑${FIVE_TARGET}%) ($(printf '')  $(date -d "$FIVE_RESET" '+%H:%M'))"
     fi
 
     # Meta em tempo real: minutos decorridos desde o início do ciclo de 7 dias.
