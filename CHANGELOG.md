@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.9 — 2026-06-26
+
+- Adicionado modo `waybar` ao `claude_usage.sh`: emite JSON com `text`, `tooltip` e `class` para módulo customizado da waybar
+- Módulo `custom/claude` configurado em `~/.config/waybar/config.jsonc` com interval 300s e CSS com cores por status operacional
+
 ## 1.8 — 2026-06-11
 
 - Corrige sobreposição do ícone `` sobre o horário de reset da janela de 5h: adicionados dois espaços entre o ícone e `HH:MM`

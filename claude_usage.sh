@@ -79,7 +79,7 @@ fetch_usage() {
     fi
 }
 
-if [[ "$MODE" == "all" || "$MODE" == "usage" ]]; then
+if [[ "$MODE" == "all" || "$MODE" == "usage" || "$MODE" == "waybar" ]]; then
     DATA=$(fetch_usage)
     FIVE_H=$(echo "$DATA" | jq -r '.five_hour.utilization | round | tostring + "%"')
     WEEK=$(echo "$DATA"   | jq -r '.seven_day.utilization  | round | tostring + "%"')
@@ -112,7 +112,7 @@ if [[ "$MODE" == "all" || "$MODE" == "usage" ]]; then
     fi
 fi
 
-if [[ "$MODE" == "all" || "$MODE" == "status" ]]; then
+if [[ "$MODE" == "all" || "$MODE" == "status" || "$MODE" == "waybar" ]]; then
     STATUS=$(curl -sf --connect-timeout 3 --max-time 5 https://status.claude.com/api/v2/status.json 2>/dev/null | jq -r '.status.indicator // "unknown"' 2>/dev/null)
     STATUS=${STATUS:-unknown}
 fi
@@ -120,5 +120,15 @@ fi
 case "$MODE" in
     usage)  echo "Claude  5h: $FIVE_H  |  7d: $WEEK" ;;
     status) echo "$STATUS" ;;
+    waybar)
+        TOOLTIP="Status: ${STATUS:-unknown}"
+        [[ -n "$FIVE_RESET" ]] && TOOLTIP="${TOOLTIP}"$'\n'"Reset 5h: $(date -d "$FIVE_RESET" '+%H:%M')"
+        [[ -n "$RESETS_AT"  ]] && TOOLTIP="${TOOLTIP}"$'\n'"Reset 7d: $(date -d "$RESETS_AT"  '+%d/%m %H:%M')"
+        jq -cn \
+            --arg text "5h: ${FIVE_H}  |  7d: ${WEEK}" \
+            --arg tooltip "$TOOLTIP" \
+            --arg class "status-${STATUS:-unknown}" \
+            '{text: $text, tooltip: $tooltip, class: $class}'
+        ;;
     *)      echo "Claude  5h: $FIVE_H  |  7d: $WEEK::$STATUS" ;;
 esac
