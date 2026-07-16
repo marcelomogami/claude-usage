@@ -63,7 +63,7 @@ automaticamente o token OAuth quando ele está prestes a expirar.
 
 ```bash
 # 1. clonar o repositório
-git clone https://github.com/marcelomogami/claude_usage.git ~/projects/personal/claude_usage
+git clone https://github.com/marcelomogami/claude-usage.git ~/projects/personal/claude_usage
 cd ~/projects/personal/claude_usage
 
 # 2. tornar o script executável
