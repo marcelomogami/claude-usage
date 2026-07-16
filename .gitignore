@@ -1,0 +1,18 @@
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Credentials / local env — never commit OAuth tokens
+.credentials.json
+*.env
+
+# Local AI agent instructions — kept out of the public repo
+AGENTS.md
+CLAUDE.md

@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
+#
+# claude_usage — Claude Pro quota usage for the KDE Plasma 6 panel and Waybar.
+#
+# Copyright (c) 2026 Marcelo Mogami
+# SPDX-License-Identifier: MIT
+#
+# Usage: claude_usage.sh [usage|status|waybar|all]
+
 MODE=${1:-all}
 
 CREDENTIALS=~/.claude/.credentials.json
@@ -7,7 +15,7 @@ CACHE_FILE="$CACHE_DIR/usage.json"
 CACHE_TTL=60
 LOCK_FILE="$CACHE_DIR/.fetch.lock"
 
-# Garante que o token está válido; faz refresh se expirado.
+# Ensures the token is valid; refreshes it if expired.
 ensure_token() {
     local expires_at
     expires_at=$(jq -r '.claudeAiOauth.expiresAt // 0' "$CREDENTIALS")
@@ -52,7 +60,7 @@ ensure_token() {
     fi
 }
 
-# Retorna o JSON de usage, usando cache se ainda válido.
+# Returns the usage JSON, serving from cache while it is still fresh.
 fetch_usage() {
     mkdir -p "$CACHE_DIR"
     exec 9>"$LOCK_FILE"
@@ -84,7 +92,7 @@ if [[ "$MODE" == "all" || "$MODE" == "usage" || "$MODE" == "waybar" ]]; then
     FIVE_H=$(echo "$DATA" | jq -r '.five_hour.utilization | round | tostring + "%"')
     WEEK=$(echo "$DATA"   | jq -r '.seven_day.utilization  | round | tostring + "%"')
 
-    # Pacing e horário de reset da janela de 5h.
+    # Pacing and reset time for the 5h window.
     FIVE_RESET=$(echo "$DATA" | jq -r '.five_hour.resets_at // empty')
     if [[ -n "$FIVE_RESET" ]]; then
         NOW=$(date +%s)
@@ -97,7 +105,7 @@ if [[ "$MODE" == "all" || "$MODE" == "usage" || "$MODE" == "waybar" ]]; then
         FIVE_H="${FIVE_H} (↑${FIVE_TARGET}%) ($(printf '')  $(date -d "$FIVE_RESET" '+%H:%M'))"
     fi
 
-    # Meta em tempo real: minutos decorridos desde o início do ciclo de 7 dias.
+    # Real-time target: minutes elapsed since the start of the 7-day cycle.
     RESETS_AT=$(echo "$DATA" | jq -r '.seven_day.resets_at // empty')
     if [[ -n "$RESETS_AT" ]]; then
         NOW=$(date +%s)

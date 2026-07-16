@@ -1,58 +1,60 @@
 # Changelog
 
+*[Leia em português](CHANGELOG.pt-BR.md)*
+
 ## 1.9 — 2026-06-26
 
-- Adicionado modo `waybar` ao `claude_usage.sh`: emite JSON com `text`, `tooltip` e `class` para módulo customizado da waybar
-- Módulo `custom/claude` configurado em `~/.config/waybar/config.jsonc` com interval 300s e CSS com cores por status operacional
+- Added a `waybar` mode to `claude_usage.sh`: emits JSON with `text`, `tooltip` and `class` for a Waybar custom module
+- Set up the `custom/claude` module in `~/.config/waybar/config.jsonc` with a 300s interval and CSS colours per operational status
 
 ## 1.8 — 2026-06-11
 
-- Corrige sobreposição do ícone `` sobre o horário de reset da janela de 5h: adicionados dois espaços entre o ícone e `HH:MM`
+- Fixed the `` icon overlapping the 5h window reset time: added two spaces between the icon and `HH:MM`
 
 ## 1.7 — 2026-05-25
 
-- Indicador `↑XX%` do 7d agora em tempo real por minuto: usa `ELAPSED_MINUTES / CYCLE_MINUTES × 100` em vez de `DAY_IDX × 100 / 7` — sobe ~0,05% a cada ciclo de 5 min em vez de travar o dia inteiro no mesmo valor
-- Cache local de 60s em `~/.cache/claudebar/usage.json` com `flock` — evita requisições duplicadas à API (ex: reload manual coincidindo com o timer)
-- Refresh automático do token OAuth: detecta `expiresAt` prestes a vencer e faz `POST /v1/oauth/token` com `grant_type: refresh_token`, atualizando `~/.claude/.credentials.json` sem intervenção manual
-- Indicador de pacing `(↑XX%)` adicionado também à janela de 5h, exibido entre o percentual e o horário de reset: `5h: 14% (↑12%) (13:50)`
+- The 7d `↑XX%` indicator is now computed by the minute: uses `ELAPSED_MINUTES / CYCLE_MINUTES × 100` instead of `DAY_IDX × 100 / 7` — it climbs ~0.05% per 5-minute cycle rather than sitting on the same value all day
+- 60-second local cache in `~/.cache/claudebar/usage.json` guarded by `flock` — avoids duplicate API requests (e.g. a manual reload landing on top of the timer)
+- Automatic OAuth token refresh: detects an `expiresAt` about to lapse and issues `POST /v1/oauth/token` with `grant_type: refresh_token`, updating `~/.claude/.credentials.json` with no manual step
+- Added the `(↑XX%)` pacing indicator to the 5h window too, between the percentage and the reset time: `5h: 14% (↑12%) (13:50)`
 
 ## 1.6 — 2026-05-19
 
-- Teto de cota do dia integrado ao `7d` como `(↑XX%)`, sem segmento separado — linguagem visual simétrica com o reset de 5h
-- Ícone de reset da janela de 5h trocado de `↻` para `` (U+F0E2, Font Awesome rotate-left), renderizado via fallback de fonte no Qt6
+- Folded the daily quota ceiling into `7d` as `(↑XX%)` instead of a separate segment — visually symmetric with the 5h reset
+- Swapped the 5h reset icon from `↻` to `` (U+F0E2, Font Awesome rotate-left), rendered through Qt6 font fallback
 
 ## 1.5 — 2026-05-19
 
-- Horário de reset da janela de 5h exibido ao lado do percentual: `5h: XX% (↻HH:MM)`
-- Valor lido de `five_hour.resets_at` da própria API e formatado em hora local
+- Show the 5h window reset time next to the percentage: `5h: XX% (↻HH:MM)`
+- Value read from the API's own `five_hour.resets_at` and formatted as local time
 
 ## 1.4 — 2026-05-19
 
-- Marcador `max: XX%` entre o 7d e a bolinha de status: teto acumulado de cota que se pode atingir até o fim do dia, dividindo os 100% da janela de 7 dias em 7 dias iguais (dia 1 = 14%, dia 7 = 100%)
-- Início do ciclo derivado automaticamente de `seven_day.resets_at` da própria API (ciclo = 7 dias antes do próximo reset); sem configuração e auto-ajustável se o reset mudar
-- Cálculo feito no próprio script (sem mudança no QML)
+- Added a `max: XX%` marker between 7d and the status dot: the cumulative quota ceiling reachable by end of day, splitting the 7-day window's 100% into 7 equal days (day 1 = 14%, day 7 = 100%)
+- Cycle start derived automatically from the API's own `seven_day.resets_at` (cycle = 7 days before the next reset); no configuration, and self-adjusting if the reset moves
+- Computed in the script itself (no QML change)
 
 ## 1.3 — 2026-05-16
 
-- Menu de contexto (botão direito) com "Recarregar cota" e "Recarregar status" separados
-- Script aceita argumento `usage` ou `status` para buscar só o que é necessário
-- Timeout adicionado ao curl do status (3s connect, 5s total) para evitar travamento no reload manual
-- Clique esquerdo mantido como reload completo (cota + status)
+- Context menu (right click) with separate "Recarregar cota" (reload quota) and "Recarregar status" (reload status) entries
+- Script accepts a `usage` or `status` argument to fetch only what is needed
+- Added a timeout to the status curl (3s connect, 5s total) to keep manual reloads from hanging
+- Left click still does a full reload (quota + status)
 
 ## 1.2 — 2026-05-15
 
-- Bolinha colorida de status do Claude (verde/amarelo/laranja/vermelho) após os percentuais
-- Consulta `status.claude.com/api/v2/status.json` a cada 5 minutos junto com o uso
-- Formato exibido: `Claude  5h: XX%  |  7d: XX% | ●`
+- Coloured Claude status dot (green/yellow/orange/red) after the percentages
+- Queries `status.claude.com/api/v2/status.json` every 5 minutes alongside usage
+- Display format: `Claude  5h: XX%  |  7d: XX% | ●`
 
 ## 1.1 — 2026-05-14
 
-- Ícone do Claude na barra (favicon extraído de claude.ai)
-- Clique no widget atualiza os dados imediatamente
-- Plasmoid movido para `claude_usage/plasmoid/` com symlink em `~/.local/share/plasma/plasmoids/`
+- Claude icon in the panel (favicon extracted from claude.ai)
+- Clicking the widget refreshes the data immediately
+- Moved the plasmoid to `claude_usage/plasmoid/` with a symlink in `~/.local/share/plasma/plasmoids/`
 
 ## 1.0 — 2026-05-14
 
-- Consulta autenticada via token OAuth do Claude Code
-- Exibe utilização nas janelas de 5h e 7d
-- Widget KDE Plasma 6 minimalista sem dependências externas
+- Authenticated queries using Claude Code's OAuth token
+- Shows usage for the 5h and 7d windows
+- Minimal KDE Plasma 6 widget with no external dependencies

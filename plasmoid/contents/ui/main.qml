@@ -53,7 +53,7 @@ PlasmoidItem {
         }
     ]
 
-    // Atualização periódica: busca cota + status
+    // Periodic refresh: fetches quota + status
     Plasma5Support.DataSource {
         id: cmdMain
         engine: "executable"
@@ -69,7 +69,7 @@ PlasmoidItem {
         }
     }
 
-    // Refresh manual: só cota
+    // Manual refresh: quota only
     Plasma5Support.DataSource {
         id: cmdUsage
         engine: "executable"
@@ -82,7 +82,7 @@ PlasmoidItem {
         }
     }
 
-    // Refresh manual: só status
+    // Manual refresh: status only
     Plasma5Support.DataSource {
         id: cmdStatus
         engine: "executable"
