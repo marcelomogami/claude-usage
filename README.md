@@ -63,8 +63,8 @@ automatically refreshes the OAuth token when it is about to expire.
 
 ```bash
 # 1. clone the repository
-git clone https://github.com/marcelomogami/claude-usage.git ~/projects/personal/claude_usage
-cd ~/projects/personal/claude_usage
+git clone https://github.com/marcelomogami/claude-usage.git
+cd claude-usage
 
 # 2. make the script executable
 chmod +x claude_usage.sh
