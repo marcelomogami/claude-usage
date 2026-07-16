@@ -16,3 +16,6 @@ Thumbs.db
 # Local AI agent instructions — kept out of the public repo
 AGENTS.md
 CLAUDE.md
+
+# Working design docs — not part of the public repo
+docs/
