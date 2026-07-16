@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 #
-# claude_usage — Claude Pro quota usage for the KDE Plasma 6 panel and Waybar.
+# claude-usage — Claude Pro quota usage for the KDE Plasma 6 panel and Waybar.
 #
 # Copyright (c) 2026 Marcelo Mogami
 # SPDX-License-Identifier: MIT
 #
-# Usage: claude_usage.sh [usage|status|waybar|all]
+# Usage: claude-usage.sh [usage|status|waybar|all]
 
 MODE=${1:-all}
 

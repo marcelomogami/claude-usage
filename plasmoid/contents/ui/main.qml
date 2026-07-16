@@ -10,7 +10,7 @@ PlasmoidItem {
     Layout.preferredWidth: row.implicitWidth + 8
     Layout.fillHeight: true
 
-    readonly property string scriptBase: "bash /home/celo/projects/personal/claude_usage/claude_usage.sh"
+    readonly property string scriptBase: "bash /home/celo/projects/personal/claude-usage/claude-usage.sh"
     property string statusIndicator: "unknown"
 
     function statusColor(indicator) {

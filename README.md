@@ -1,4 +1,4 @@
-# claude_usage
+# claude-usage
 
 A KDE Plasma 6 panel widget that shows your Claude Pro quota usage.
 Also works as a custom [Waybar](https://github.com/Alexays/Waybar) module.
@@ -20,8 +20,8 @@ Left-clicking the widget refreshes quota and status together. Right-clicking ope
 ## Layout
 
 ```
-claude_usage/
-├── claude_usage.sh        # bash script that queries the API
+claude-usage/
+├── claude-usage.sh        # bash script that queries the API
 ├── plasmoid/              # KDE widget package
 │   ├── metadata.json
 │   └── contents/
@@ -50,7 +50,7 @@ automatically refreshes the OAuth token when it is about to expire.
 
 ## Script modes
 
-`claude_usage.sh` takes a single argument that selects the output format:
+`claude-usage.sh` takes a single argument that selects the output format:
 
 | Mode | Output |
 |------|--------|
@@ -67,7 +67,7 @@ git clone https://github.com/marcelomogami/claude-usage.git
 cd claude-usage
 
 # 2. make the script executable
-chmod +x claude_usage.sh
+chmod +x claude-usage.sh
 
 # 3. symlink the plasmoid
 ln -s "$PWD/plasmoid" ~/.local/share/plasma/plasmoids/com.celo.claudeusage
@@ -87,7 +87,7 @@ Add a custom module to `~/.config/waybar/config.jsonc`:
 
 ```jsonc
 "custom/claude": {
-    "exec": "bash ~/projects/personal/claude_usage/claude_usage.sh waybar",
+    "exec": "bash ~/projects/personal/claude-usage/claude-usage.sh waybar",
     "return-type": "json",
     "interval": 300
 }

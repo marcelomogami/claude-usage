@@ -1,4 +1,4 @@
-# claude_usage
+# claude-usage
 
 Widget KDE Plasma 6 que exibe o uso da cota do Claude Pro na barra do painel.
 Também funciona como módulo customizado da [Waybar](https://github.com/Alexays/Waybar).
@@ -20,8 +20,8 @@ Clique esquerdo no widget atualiza cota e status ao mesmo tempo. Botão direito 
 ## Estrutura
 
 ```
-claude_usage/
-├── claude_usage.sh        # script bash que consulta a API
+claude-usage/
+├── claude-usage.sh        # script bash que consulta a API
 ├── plasmoid/              # pacote do widget KDE
 │   ├── metadata.json
 │   └── contents/
@@ -50,7 +50,7 @@ automaticamente o token OAuth quando ele está prestes a expirar.
 
 ## Modos do script
 
-`claude_usage.sh` aceita um argumento que define a saída:
+`claude-usage.sh` aceita um argumento que define a saída:
 
 | Modo | Saída |
 |------|-------|
@@ -67,7 +67,7 @@ git clone https://github.com/marcelomogami/claude-usage.git
 cd claude-usage
 
 # 2. tornar o script executável
-chmod +x claude_usage.sh
+chmod +x claude-usage.sh
 
 # 3. criar o symlink do plasmoid
 ln -s "$PWD/plasmoid" ~/.local/share/plasma/plasmoids/com.celo.claudeusage
@@ -87,7 +87,7 @@ Adicione um módulo customizado ao `~/.config/waybar/config.jsonc`:
 
 ```jsonc
 "custom/claude": {
-    "exec": "bash ~/projects/personal/claude_usage/claude_usage.sh waybar",
+    "exec": "bash ~/projects/personal/claude-usage/claude-usage.sh waybar",
     "return-type": "json",
     "interval": 300
 }
